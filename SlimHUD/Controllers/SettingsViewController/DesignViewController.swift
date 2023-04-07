@@ -22,6 +22,8 @@ class DesignViewController: NSViewController {
     @IBOutlet weak var flatBarOutlet: NSButton!
     @IBOutlet weak var animationStyleOutlet: NSPopUpButton!
     @IBOutlet weak var shadowTypeOutlet: NSPopUpButton!
+    
+    @IBOutlet weak var backgroundEnable: NSSwitch!
 
     override func viewDidLoad() {
         // swiftlint:disable:next force_cast
@@ -129,5 +131,11 @@ class DesignViewController: NSViewController {
         useFlatBar(true)
         setAnimationStyle(.slide)
         setShadowType(.nsshadow)
+    }
+    
+    @IBAction func backgroundEnableSwitch(_ sender: NSSwitch) {
+        var enabledBG = (sender.state == NSControl.StateValue.on) ? true : false
+        settingsManager.enabledBackground = enabledBG
+        delegate?.setBackground(enabledBG)
     }
 }

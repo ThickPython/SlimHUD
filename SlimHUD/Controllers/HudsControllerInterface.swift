@@ -20,6 +20,7 @@ protocol HudsControllerInterface: AnyObject {
     func setHeight(height: CGFloat)
     func setThickness(thickness: CGFloat)
     func setAnimationStyle(animationStyle: AnimationStyle)
+    func setBackground(_ enabled: Bool)
     @available(OSX 10.14, *)
     func setVolumeIconsTint(_ color: NSColor)
     @available(OSX 10.14, *)

@@ -113,6 +113,8 @@ class Displayer: HudsControllerInterface {
                               radius: settingsManager.shadowRadius, color: settingsManager.shadowColor,
                               inset: settingsManager.shadowInset)
     }
+    
+    
 
     func updateIconsVisibility() {
         volumeHud.hideIcon(isHidden: !settingsManager.shouldShowIcons)
@@ -155,6 +157,7 @@ class Displayer: HudsControllerInterface {
         setBrightnessColor(color: settingsManager.brightnessColor)
         setKeyboardColor(color: settingsManager.keyboardColor)
         setAnimationStyle(animationStyle: settingsManager.animationStyle)
+        
         if #available(OSX 10.14, *) {
             setVolumeIconsTint(settingsManager.volumeIconColor)
             setBrightnessIconsTint(settingsManager.brightnessIconColor)
@@ -203,6 +206,12 @@ class Displayer: HudsControllerInterface {
     }
     public func setKeyboardProgress(_ progress: Float) {
         keyboardHud.setProgress(progress: progress)
+    }
+    
+    public func setBackground(_ enabled: Bool) {
+        volumeHud.setEnableBG(toEnable: enabled)
+        brightnessHud.setEnableBG(toEnable: enabled)
+        keyboardHud.setEnableBG(toEnable: enabled)
     }
 
 }

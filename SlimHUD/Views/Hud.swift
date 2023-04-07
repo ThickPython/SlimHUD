@@ -30,6 +30,10 @@ class Hud: NSView {
     // flags to handle animation cancel (hud will show while hiding)
     private var animatingOut = false
     private var canceledAnimationOut = false
+    
+    //not really necessary but used for keeping things in scope
+    //Used only in updateBG()
+    private var backgroundEnabled = false;
 
     private override init(frame frameRect: NSRect) {
         originPosition = .zero
@@ -170,6 +174,7 @@ class Hud: NSView {
     public func setHeight(height: CGFloat) {
         barView.setFrameSize(NSSize(width: barView.frame.width, height: height + Constants.ShadowRadius * 3))
         updateShadow()
+        updateBG()
     }
 
     public func setThickness(thickness: CGFloat, flatBar: Bool) {
@@ -183,6 +188,7 @@ class Hud: NSView {
         barView.bar.layer?.cornerRadius = thickness/2 // setting up outer layer
         barView.bar.frame.size.width = thickness
         updateShadow()
+        updateBG()
     }
 
     public func getFrame() -> NSRect {
@@ -238,5 +244,17 @@ class Hud: NSView {
                 barView.animator().setFrameOrigin(originPosition)
             }
         })
+    }
+    
+    public func setEnableBG(toEnable: Bool) {
+        backgroundEnabled = toEnable;
+        barView.setupBackgroundAsView(roundCornerRadius: 30)
+        barView.setBackground(toEnable: toEnable)
+    }
+    
+    func updateBG() {
+        if(backgroundEnabled) {
+            barView.setupBackgroundAsView(roundCornerRadius: 30)
+        }
     }
 }

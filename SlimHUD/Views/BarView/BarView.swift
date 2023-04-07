@@ -15,6 +15,7 @@ class BarView: NSView {
     @IBOutlet private var icon: NSImageView!
 
     private var shadowView: NSView!
+    private var bgBox : NSBox!
 
     override func awakeFromNib() {
         if let icon = icon { // not set in
@@ -86,12 +87,45 @@ class BarView: NSView {
         }
         self.addSubview(shadowView, positioned: .below, relativeTo: icon.isHidden ? bar : self)
     }
+    
     public func disableShadowView() {
         if shadowView != nil {
             shadowView.removeFromSuperview()
             shadowView = nil
         }
     }
+        
+    //background view
+    public func setupBackgroundAsView(roundCornerRadius: Int, color: NSColor = .lightGray) {
+        destroyBGBox()
+        bgBox = NSBox(frame: NSRect(origin: .zero, size: CGSize(width: self.bounds.width, height: self.bounds.height)))
+        bgBox.boxType = .custom
+        
+        bgBox.borderWidth = 0
+        bgBox.wantsLayer = true
+        bgBox.cornerRadius = self.bounds.width < 20 ? self.bounds.width : 20
+        
+        bgBox.fillColor = .systemGray
+        bgBox.isTransparent = false
+        bgBox.title = ""
+        self.addSubview(bgBox, positioned: .below, relativeTo: icon.isHidden ? bar : self)
+    }
+    
+    //destroys the existing box when reenabling so you don't have multiple overlapping views
+    func destroyBGBox() {
+        if(bgBox != nil) {
+            bgBox.removeFromSuperview()
+            bgBox = nil
+        }
+        
+    }
+    
+    ///Sets the background as in the background for the entire barview
+    public func setBackground(toEnable : Bool)  {
+        bgBox.isHidden = !toEnable
+    }
+    
+    
     private func createMaskLayer(shadowFrame: NSRect, shadowRadius: Int) -> CALayer {
         let verticalGradientLength = CGFloat(shadowRadius) / shadowFrame.height * 1.5 // only because it looks better
         let verticalGradient = CAGradientLayer()
